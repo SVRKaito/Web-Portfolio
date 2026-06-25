@@ -490,3 +490,102 @@ footer {
   .projects-grid { grid-template-columns: repeat(3, 1fr); }
   .hero h1 { font-size: 4rem; }
 }
+/* ── Education Cards ── */
+.education-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.education-card {
+  display: grid;
+  grid-template-columns: 70px 1fr;
+  gap: 1.5rem;
+  align-items: start;
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 2rem;
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.education-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(59, 130, 246, 0.35);
+}
+
+.education-icon {
+  width: 52px;
+  height: 52px;
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid rgba(59, 130, 246, 0.25);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  color: var(--primary-accent);
+  flex-shrink: 0;
+}
+
+.education-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.education-year {
+  font-family: monospace;
+  font-size: 0.78rem;
+  color: var(--primary-accent);
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  padding: 0.15rem 0.6rem;
+  border-radius: 20px;
+  display: inline-block;
+  width: fit-content;
+  margin-bottom: 0.3rem;
+}
+
+.education-card h3 {
+  font-size: 1.05rem;
+  color: var(--text-main);
+  margin: 0;
+}
+
+.education-school {
+  font-family: monospace;
+  font-size: 0.85rem;
+  color: var(--terminal-green);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.education-desc {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin-top: 0.3rem;
+}
+
+/* Responsive education */
+@media (max-width: 768px) {
+  .education-card {
+    grid-template-columns: 50px 1fr;
+    gap: 1rem;
+    padding: 1.3rem;
+  }
+  .education-icon {
+    width: 44px;
+    height: 44px;
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .education-card {
+    grid-template-columns: 1fr;
+  }
+  .education-icon { display: none; }
+}
