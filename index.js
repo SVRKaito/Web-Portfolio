@@ -123,18 +123,41 @@ filterButtons.forEach(button => {
   });
 });
 
-// ── 5. Form Submission ──
-document.getElementById('portfolioForm').addEventListener('submit', e => {
+// ── 5. Form Submission (Formspree Fetch API) ──
+document.getElementById('portfolioForm').addEventListener('submit', async function (e) {
   e.preventDefault();
-  const btn = e.target.querySelector('button[type="submit"]');
-  const orig = btn.textContent;
-  btn.textContent = '✓ Packet Received!';
-  btn.style.background = '#10b981';
-  setTimeout(() => {
-    btn.textContent = orig;
-    btn.style.background = '';
-    e.target.reset();
-  }, 2800);
+  const form = e.target;
+  const btn = form.querySelector('button[type="submit"]');
+  const origText = btn.textContent;
+
+  btn.textContent = 'Sending...';
+  btn.style.opacity = '0.7';
+
+  try {
+    const response = await fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    });
+
+    if (response.ok) {
+      btn.textContent = '✓ Packet Received!';
+      btn.style.background = '#10b981';
+      form.reset();
+    } else {
+      btn.textContent = '✖ Transmission Error';
+      btn.style.background = '#ef4444';
+    }
+  } catch (error) {
+    btn.textContent = '✖ Connection Error';
+    btn.style.background = '#ef4444';
+  } finally {
+    btn.style.opacity = '1';
+    setTimeout(() => {
+      btn.textContent = origText;
+      btn.style.background = '';
+    }, 3000);
+  }
 });
 
 // ── 6. Scroll Typewriter Terminal ──
