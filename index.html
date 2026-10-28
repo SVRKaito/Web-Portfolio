@@ -97,25 +97,51 @@
   <section id="experience" class="experience-section">
     <div class="container">
       <h2 class="section-title reveal from-left">Work_Experience</h2>
-      <div class="timeline">
+      <div class="exp-grid">
 
-        <div class="timeline-item reveal from-left">
-          <div class="timeline-meta">
-            <span class="timeline-year">2025</span>
-            <span class="timeline-tag">OJT</span>
-          </div>
-          <div class="timeline-content">
-            <h3>Computer Engineering Intern (OJT)</h3>
-            <p class="timeline-company">Sophie's Information Technology Services (SitesPhil)</p>
-            <ul class="timeline-list">
-              <li>Gained extensive, hands-on experience in computer hardware diagnostics, troubleshooting, and component-level repair alongside system programming and network design.</li>
-              <li>Completed 320 hours of On-the-Job Training (finished August 12, 2025) focused on deploying enterprise network solutions and evaluating system integrity.</li>
-              <li>Designed and executed automated configuration playbooks for infrastructure deployment, reducing manual cycle times for device setup and administration.</li>
-              <li>Developed CI/CD workflows using orchestration tools to automate build environments, verify dependencies, and generate deployment quality reports.</li>
-              <li>Maintained clean documentation for system setups and network state backups, streamlining infrastructure handoffs and disaster recovery.</li>
-            </ul>
-          </div>
-        </div>
+        
+        <article class="exp-mini reveal from-left">
+          <button type="button" class="exp-open" data-target="exp-sitesphil" aria-haspopup="dialog">
+            <span class="exp-cover">
+              <i class="fa-solid fa-building exp-cover-icon"></i>
+              <img src="sitesphil.png" alt="" onerror="this.style.display='none'">
+              <span class="exp-viewpill">View Details</span>
+            </span>
+            <span class="exp-info">
+              <span class="exp-meta">
+                <span class="exp-period">2025</span>
+                <span class="exp-type"><i class="fa-solid fa-user-graduate"></i> OJT</span>
+              </span>
+              <span class="exp-title">Computer Engineering Intern (OJT)</span>
+              <span class="exp-company">Sophie's Information Technology Services (SitesPhil)</span>
+              <span class="exp-loc">320 hours of training</span>
+            </span>
+          </button>
+
+          <template id="exp-sitesphil">
+            <div class="exp-modal-bar">
+              <div class="exp-modal-heading">
+                <h3 class="exp-modal-title" id="exp-modal-title">Computer Engineering Intern (OJT)</h3>
+                <span class="exp-sep">&bull;</span>
+                <span class="exp-modal-co">Sophie's Information Technology Services (SitesPhil)</span>
+              </div>
+              <span class="exp-status done"><i class="fa-regular fa-circle-check"></i> Completed</span>
+            </div>
+            <div class="exp-modal-grid">
+              <div class="exp-modal-left">
+                <div class="exp-modal-cover">
+                  <i class="fa-solid fa-building exp-cover-icon"></i>
+                  <img src="sitesphil.png" alt="" onerror="this.style.display='none'">
+                </div>
+                <dl class="exp-facts"><div class="exp-row-item"><dt>Period</dt><dd>2025 (finished Aug 12, 2025)</dd></div><div class="exp-row-item"><dt>Duration</dt><dd>320 hours</dd></div><div class="exp-row-item"><dt>Type</dt><dd>On-the-Job Training</dd></div></dl>
+              </div>
+              <div class="exp-modal-right">
+                <h4>Responsibilities</h4>
+                <ul class="exp-bullets"><li>Gained extensive, hands-on experience in computer hardware diagnostics, troubleshooting, and component-level repair alongside system programming and network design</li><li>Completed 320 hours of On-the-Job Training (finished August 12, 2025) focused on deploying enterprise network solutions and evaluating system integrity</li><li>Designed and executed automated configuration playbooks for infrastructure deployment, reducing manual cycle times for device setup and administration</li><li>Developed CI/CD workflows using orchestration tools to automate build environments, verify dependencies, and generate deployment quality reports</li><li>Maintained clean documentation for system setups and network state backups, streamlining infrastructure handoffs and disaster recovery</li></ul>
+              </div>
+            </div>
+          </template>
+        </article>
 
       </div>
     </div>
@@ -263,6 +289,14 @@
         </div>
       </div>
       <iframe id="resume-frame" class="resume-frame" title="Resume preview" src="about:blank"></iframe>
+    </div>
+  </div>
+
+  <!-- EXPERIENCE MODAL -->
+  <div class="exp-modal" id="exp-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="exp-modal-title">
+    <div class="exp-dialog">
+      <button type="button" class="exp-modal-close" id="exp-modal-close" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+      <div class="exp-modal-content" id="exp-modal-content"></div>
     </div>
   </div>
 <script src="script.js"></script>

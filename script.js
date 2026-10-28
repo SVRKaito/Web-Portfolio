@@ -337,3 +337,38 @@ window.addEventListener('scroll', () => {
     if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
   });
 })();
+
+
+// ── 11. Work Experience: small box -> big pop-up ──
+(function () {
+  const modal   = document.getElementById('exp-modal');
+  const content = document.getElementById('exp-modal-content');
+  const closeBt = document.getElementById('exp-modal-close');
+  if (!modal) return;
+  let lastTrigger = null;
+
+  function open(trigger) {
+    const tpl = document.getElementById(trigger.dataset.target);
+    if (!tpl) return;
+    lastTrigger = trigger;
+    content.innerHTML = '';
+    content.appendChild(tpl.content.cloneNode(true));
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    closeBt.focus();
+  }
+  function close() {
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    if (lastTrigger) lastTrigger.focus();
+  }
+
+  document.querySelectorAll('.exp-open').forEach(b => b.addEventListener('click', () => open(b)));
+  closeBt.addEventListener('click', close);
+  modal.addEventListener('click', e => { if (e.target === modal) close(); });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && modal.classList.contains('open')) close();
+  });
+})();
