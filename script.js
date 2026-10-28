@@ -160,9 +160,11 @@ document.getElementById('portfolioForm').addEventListener('submit', async functi
   }
 });
 
-// ── 6. Scroll Typewriter Terminal ──
+// ── 6. Scroll Typewriter Terminal (replays every time About re-enters view) ──
 const terminalOutput = document.getElementById('terminal-output');
 let typingStarted = false;
+let runId = 0;          // bumps on every reset so old timers stop themselves
+let activeTimers = [];  // every pending interval/timeout, so reset can cancel them
 
 const lines = [
   { type: 'prompt',   text: 'cat biography.txt' },
@@ -173,11 +175,17 @@ const lines = [
   { type: 'response', text: '> Christian A. Latunio | BS Computer Engineering | University of Batangas' },
 ];
 
-function typeText(el, text, speed, callback) {
+function later(fn, ms, id) {
+  const t = setTimeout(() => { if (id === runId) fn(); }, ms);
+  activeTimers.push(t);
+}
+
+function typeText(el, text, speed, id, callback) {
   let i = 0;
   const span = document.createElement('span');
   el.appendChild(span);
   const interval = setInterval(() => {
+    if (id !== runId) { clearInterval(interval); return; }
     span.textContent += text[i];
     i++;
     if (i >= text.length) {
@@ -185,9 +193,11 @@ function typeText(el, text, speed, callback) {
       if (callback) callback();
     }
   }, speed);
+  activeTimers.push(interval);
 }
 
-function runLines(index) {
+function runLines(index, id) {
+  if (id !== runId) return;
   if (index >= lines.length) {
     const cursorP = document.createElement('p');
     cursorP.innerHTML = '<span class="prompt">user@tech:~$</span> <span class="cursor">|</span>';
@@ -200,21 +210,37 @@ function runLines(index) {
 
   if (line.type === 'prompt') {
     p.innerHTML = '<span class="prompt">user@tech:~$</span> ';
-    typeText(p, line.text, 30, () => setTimeout(() => runLines(index + 1), 120));
+    typeText(p, line.text, 30, id, () => later(() => runLines(index + 1, id), 120, id));
   } else {
     p.className = 'response';
-    typeText(p, line.text, 8, () => setTimeout(() => runLines(index + 1), 160));
+    typeText(p, line.text, 8, id, () => later(() => runLines(index + 1, id), 160, id));
   }
+}
+
+function startTerminal() {
+  typingStarted = true;
+  const id = ++runId;
+  later(() => runLines(0, id), 300, id);
+}
+
+function resetTerminal() {
+  runId++;                                   // invalidate anything still running
+  activeTimers.forEach(t => { clearTimeout(t); clearInterval(t); });
+  activeTimers = [];
+  terminalOutput.innerHTML = '';
+  typingStarted = false;
 }
 
 const terminalObserver = new IntersectionObserver(entries => {
   entries.forEach(entry => {
-    if (entry.isIntersecting && !typingStarted) {
-      typingStarted = true;
-      setTimeout(() => runLines(0), 300);
+    if (!entry.isIntersecting) {
+      // About fully scrolled out of view -> clear it so it replays next time
+      if (typingStarted) resetTerminal();
+    } else if (entry.intersectionRatio >= 0.15 && !typingStarted) {
+      startTerminal();
     }
   });
-}, { threshold: 0.15 });
+}, { threshold: [0, 0.15] });
 
 terminalObserver.observe(document.getElementById('about'));
 
