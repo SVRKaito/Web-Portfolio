@@ -245,3 +245,69 @@ window.addEventListener('scroll', () => {
       : '';
   });
 }, { passive: true });
+
+// ── 9. Hero Title: "Christian Latunio" -> "Computer Engineer Graduate" ──
+(function () {
+  const el = document.getElementById('rotating-title');
+  if (!el) return;
+  const phrases = ['Christian Latunio', 'Computer Engineer Graduate'];
+  let index = 0;
+
+  function erase(done) {
+    const t = setInterval(() => {
+      el.textContent = el.textContent.slice(0, -1);
+      if (el.textContent.length === 0) { clearInterval(t); done(); }
+    }, 40);
+  }
+  function type(text, done) {
+    let i = 0;
+    const t = setInterval(() => {
+      el.textContent = text.slice(0, ++i);
+      if (i >= text.length) { clearInterval(t); done(); }
+    }, 70);
+  }
+
+  // Endless loop: hold -> erase -> type the other phrase -> repeat (back and forth)
+  function cycle() {
+    setTimeout(() => {
+      erase(() => {
+        index = (index + 1) % phrases.length;
+        type(phrases[index], cycle);
+      });
+    }, 2500);
+  }
+
+  cycle();
+})();
+
+
+// ── 10. Resume Pop-up ──
+(function () {
+  const btn   = document.getElementById('resume-btn');
+  const modal = document.getElementById('resume-modal');
+  const frame = document.getElementById('resume-frame');
+  const close = document.getElementById('resume-close');
+  if (!btn || !modal) return;
+
+  function openModal(e) {
+    e.preventDefault();
+    if (frame.getAttribute('src') === 'about:blank') frame.src = 'Latunio_resume.pdf#view=FitH';
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    close.focus();
+  }
+  function closeModal() {
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    btn.focus();
+  }
+
+  btn.addEventListener('click', openModal);
+  close.addEventListener('click', closeModal);
+  modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+  });
+})();
