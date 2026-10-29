@@ -233,7 +233,13 @@ section { padding: 5rem 0; }
   align-items: center;
   gap: 6px;
 }
-.dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+.dot { 
+  width: 12px; 
+  height: 12px;
+  border-radius: 50%; 
+  flex-shrink: 0; 
+}
+
 .red    { background: #ef4444; }
 .yellow { background: #f59e0b; }
 .green  { background: #10b981; }
@@ -1649,3 +1655,8 @@ html body > #proj-modal.cert-modal {
   font-size: 0.8rem;
   font-weight: 600;
 }
+/* ── Navbar logo image ── */
+.logo { display: inline-flex; align-items: center; line-height: 0; }
+.logo-img { height: 38px; width: auto; display: block; transition: transform 0.2s, filter 0.2s; }
+.logo:hover .logo-img { transform: scale(1.06); filter: drop-shadow(0 0 8px rgba(0, 210, 255, 0.55)); }
+@media (max-width: 400px) { .logo-img { height: 32px; } }
