@@ -317,7 +317,7 @@ window.addEventListener('scroll', () => {
 
   function openModal(e) {
     e.preventDefault();
-    if (frame.getAttribute('src') === 'about:blank') frame.src = 'Latunio_resume.pdf#view=FitH';
+    if (frame.getAttribute('src') === 'about:blank') frame.src = 'resume/Latunio_resume.pdf#view=FitH';
     modal.classList.add('open');
     modal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
