@@ -1,4 +1,4 @@
-// ── 1. Animated Particle Background ──
+// Animated Particle Background
 (function () {
   const canvas = document.getElementById('bg-canvas');
   const ctx = canvas.getContext('2d');
@@ -371,4 +371,344 @@ window.addEventListener('scroll', () => {
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape' && modal.classList.contains('open')) close();
   });
+})();
+
+
+// ── 12. Certificates: cards live in index.html (edit them there) + detail pop-up ──
+(function () {
+  const slider   = document.getElementById('cert-slider');
+  const viewport = document.getElementById('cert-viewport');
+  const track    = document.getElementById('cert-track');
+  const modal    = document.getElementById('cert-modal');
+  if (!slider || !viewport || !track || !modal) return;
+
+  const titleEl  = document.getElementById('cert-modal-title');
+  const typeEl   = document.getElementById('cert-modal-type');
+  const aboutEl  = document.getElementById('cert-modal-about');
+  const imgEl    = document.getElementById('cert-modal-img');
+  const missEl   = document.getElementById('cert-missing');
+  const closeBt  = document.getElementById('cert-close');
+  const zbar     = document.getElementById('cert-zoombar');
+  const frame    = document.getElementById('cert-picture');
+  const pagerEl  = document.querySelector('.cert-pager');
+  const prevBt   = document.getElementById('cert-prev');
+  const nextBt   = document.getElementById('cert-next');
+  const fDate    = document.getElementById('cert-f-date');
+  const fType    = document.getElementById('cert-f-type');
+  const fIssuer  = document.getElementById('cert-f-issuer');
+
+
+  const originals = Array.from(track.querySelectorAll('.cert-item'));
+  const CERTS = originals.map((it, i) => {
+    it.dataset.index = i;
+    const d = it.dataset, im = it.querySelector('img');
+    return { title: d.title, type: d.type, issuer: d.issuer, date: d.date, location: d.location, about: d.about, src: im ? im.getAttribute('src') : '' };
+  });
+
+  // two extra copies so the line can slide forever in both directions
+  const LOOP = originals.length >= 5;   // endless loop: the last card sits right before the first
+  for (let c = 0; c < (LOOP ? 2 : 0); c++) {
+    originals.forEach((it, i) => {
+      const cl = it.cloneNode(true);
+      cl.dataset.index = i;
+      cl.setAttribute('aria-hidden', 'true');
+      cl.tabIndex = -1;
+      track.appendChild(cl);
+    });
+  }
+
+  // ---- drag to slide ----
+  let setW = 0;
+
+  function measure() {
+    if (!LOOP) { setW = 0; return; }
+    const first = originals[0];
+    const copy  = track.children[originals.length];
+    setW = copy.offsetLeft - first.offsetLeft;
+  }
+  function start() {
+    measure();
+    if (!LOOP) return;
+    viewport.scrollLeft = setW - 60;   // start at the oldest certificate (first card)
+  }
+  viewport.addEventListener('scroll', () => {
+    if (!setW) return;
+    if (viewport.scrollLeft < setW * 0.5) viewport.scrollLeft += setW;
+    else if (viewport.scrollLeft > setW * 1.5) viewport.scrollLeft -= setW;
+  }, { passive: true });
+
+  let down = false, moved = false, justDragged = false;
+  let prevX = 0, lastT = 0, vel = 0, glideId = 0;
+
+  viewport.addEventListener('pointerdown', e => {
+    if (e.pointerType === 'touch' || e.button !== 0) return;
+    down = true; moved = false;
+    prevX = e.clientX; lastT = performance.now(); vel = 0;
+    cancelAnimationFrame(glideId);
+  });
+  viewport.addEventListener('pointermove', e => {
+    if (!down) return;
+    if (!moved) {
+      if (Math.abs(e.clientX - prevX) < 5) return;
+      moved = true;
+      viewport.setPointerCapture(e.pointerId);
+      viewport.classList.add('dragging');
+    }
+    const now = performance.now();
+    const dx = e.clientX - prevX;
+    viewport.scrollLeft -= dx;
+    vel = 0.8 * vel + 0.2 * (-dx / Math.max(now - lastT, 1));
+    prevX = e.clientX; lastT = now;
+  });
+  function endDrag() {
+    if (!down) return;
+    down = false;
+    viewport.classList.remove('dragging');
+    if (moved) {
+      justDragged = true;
+      setTimeout(() => { justDragged = false; }, 60);
+      let v = vel * 16;
+      (function glide() {
+        if (Math.abs(v) < 0.4) return;
+        viewport.scrollLeft += v;
+        v *= 0.94;
+        glideId = requestAnimationFrame(glide);
+      })();
+    }
+  }
+  viewport.addEventListener('pointerup', endDrag);
+  viewport.addEventListener('pointercancel', endDrag);
+  viewport.addEventListener('click', e => {
+    if (justDragged) { e.stopPropagation(); e.preventDefault(); }
+  }, true);
+
+  function updateArrows() {
+    const fits = viewport.scrollWidth <= viewport.clientWidth + 2;
+    slider.querySelectorAll('.cert-slide-btn').forEach(b => { b.hidden = fits; });
+  }
+  window.addEventListener('load', updateArrows);
+  window.addEventListener('resize', updateArrows);
+  updateArrows();
+
+  function nudge(dir) {
+    cancelAnimationFrame(glideId);
+    // wrap around: back from the first goes to the last, forward from the last goes to the first
+    const max = viewport.scrollWidth - viewport.clientWidth;
+    if (!LOOP && dir < 0 && viewport.scrollLeft <= 2) { viewport.scrollTo({ left: max, behavior: 'smooth' }); return; }
+    if (!LOOP && dir > 0 && viewport.scrollLeft >= max - 2) { viewport.scrollTo({ left: 0, behavior: 'smooth' }); return; }
+    const step = (originals[0].offsetWidth + 16) * 3;
+    viewport.scrollBy({ left: dir * step, behavior: 'smooth' });
+  }
+  document.getElementById('cert-slide-prev').addEventListener('click', () => nudge(-1));
+  document.getElementById('cert-slide-next').addEventListener('click', () => nudge(1));
+
+  const allBtn = document.getElementById('cert-all-btn');
+
+  window.addEventListener('load', start);
+  window.addEventListener('resize', () => {
+    if (!LOOP) return;
+    const f = viewport.scrollLeft / (setW || 1);
+    measure();
+    viewport.scrollLeft = f * setW;
+  });
+  start();
+
+  // ---- pop-up: picture + facts on the left, about on the right ----
+  let idx = 0, lastTrigger = null;
+
+  function setFact(row, value) {
+    row.hidden = !value;
+    row.querySelector('dd').textContent = value || '';
+  }
+
+  function show() {
+    const c = CERTS[idx];
+    titleEl.textContent = c.title;
+    typeEl.textContent = c.type;
+    aboutEl.textContent = c.about || '';
+    setFact(fDate.parentElement, c.date);
+    setFact(fType.parentElement, c.type);
+    setFact(fIssuer.parentElement, c.issuer);
+    resetZoom();
+    missEl.hidden = true;
+    imgEl.hidden = false;
+    zbar.hidden = false;
+    imgEl.onerror = () => {
+      imgEl.hidden = true;
+      zbar.hidden = true;
+      missEl.textContent = 'Certificate image not added yet: ' + c.src;
+      missEl.hidden = false;
+    };
+    imgEl.src = c.src;
+  }
+  if (CERTS.length < 2 && pagerEl) pagerEl.hidden = true;   // no 1 / 1 and no arrows for a single certificate
+
+  function open(item) {
+    lastTrigger = item;
+    idx = Number(item.dataset.index);
+    show();
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    closeBt.focus();
+  }
+  function close() {
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    if (lastTrigger) lastTrigger.focus({ preventScroll: true });
+  }
+  // ---- zoom in the pop-up: + / - buttons, drag to move ----
+  const zIn    = document.getElementById('cert-zoom-in');
+  const zOut   = document.getElementById('cert-zoom-out');
+  const zLevel = document.getElementById('cert-zoom-level');
+  const Z_MIN = 1, Z_MAX = 4, Z_STEP = 0.25;
+  let zoom = 1, tx = 0, ty = 0;
+
+  function clampPan() {
+    const maxX = Math.max(0, (imgEl.offsetWidth  * zoom - frame.clientWidth)  / 2);
+    const maxY = Math.max(0, (imgEl.offsetHeight * zoom - frame.clientHeight) / 2);
+    tx = Math.min(maxX, Math.max(-maxX, tx));
+    ty = Math.min(maxY, Math.max(-maxY, ty));
+  }
+  function applyZoom() {
+    clampPan();
+    imgEl.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + zoom + ')';
+    zLevel.textContent = Math.round(zoom * 100) + '%';
+    zOut.disabled = zoom <= Z_MIN + 0.001;
+    zIn.disabled  = zoom >= Z_MAX - 0.001;
+    frame.classList.toggle('zoomed', zoom > 1.001);
+  }
+  function setZoom(z) {
+    zoom = Math.min(Z_MAX, Math.max(Z_MIN, Math.round(z * 100) / 100));
+    if (zoom === 1) { tx = 0; ty = 0; }
+    applyZoom();
+  }
+  function resetZoom() { zoom = 1; tx = 0; ty = 0; applyZoom(); }
+
+  zIn.addEventListener('click', () => setZoom(zoom + Z_STEP));
+  zOut.addEventListener('click', () => setZoom(zoom - Z_STEP));
+  zLevel.addEventListener('click', resetZoom);
+  frame.addEventListener('wheel', e => {
+    if (!e.ctrlKey) return;
+    e.preventDefault();
+    setZoom(zoom + (e.deltaY < 0 ? Z_STEP : -Z_STEP));
+  }, { passive: false });
+
+  // drag the picture around while zoomed in
+  let panning = false, px = 0, py = 0;
+  frame.addEventListener('pointerdown', e => {
+    if (e.button !== 0 || zoom <= 1.001 || e.target.closest('.cert-zoombar')) return;
+    panning = true; px = e.clientX; py = e.clientY;
+    frame.setPointerCapture(e.pointerId);
+    frame.classList.add('panning');
+  });
+  frame.addEventListener('pointermove', e => {
+    if (!panning) return;
+    tx += e.clientX - px; ty += e.clientY - py;
+    px = e.clientX; py = e.clientY;
+    applyZoom();
+  });
+  function endPan() { panning = false; frame.classList.remove('panning'); }
+  frame.addEventListener('pointerup', endPan);
+  frame.addEventListener('pointercancel', endPan);
+  window.addEventListener('resize', () => { if (modal.classList.contains('open')) applyZoom(); });
+
+  function step(d) { idx = (idx + d + CERTS.length) % CERTS.length; show(); }
+
+  track.addEventListener('click', e => {
+    const it = e.target.closest('.cert-item');
+    if (it) open(it);
+  });
+  closeBt.addEventListener('click', close);
+  prevBt.addEventListener('click', () => step(-1));
+  nextBt.addEventListener('click', () => step(1));
+  modal.addEventListener('click', e => { if (e.target === modal) close(); });
+  document.addEventListener('keydown', e => {
+    if (!modal.classList.contains('open')) return;
+    if (e.key === 'Escape') close();
+    else if (e.key === '+' || e.key === '=') setZoom(zoom + Z_STEP);
+    else if (e.key === '-') setZoom(zoom - Z_STEP);
+    else if (e.key === '0') resetZoom();
+    else if (e.key === 'ArrowLeft') step(-1);
+    else if (e.key === 'ArrowRight') step(1);
+  });
+
+  // ---- "All Certificates" pop-up: grouped by category, click one to open it ----
+  const allModal = document.getElementById('certs-all-modal');
+  const allBody  = document.getElementById('certs-all-body');
+  const allClose = document.getElementById('certs-all-close');
+  if (allBtn && allModal && allBody) {
+    const ORDER = ['Certifications and Training', 'Webinars and Seminars', 'Internship', 'Achievements and Extracurricular'];
+    const groups = {};
+    CERTS.forEach((c, i) => { (groups[c.type] = groups[c.type] || []).push(i); });
+    const types = ORDER.filter(t => groups[t]).concat(Object.keys(groups).filter(t => ORDER.indexOf(t) < 0));
+
+    function mk(tag, cls, text) {
+      const el = document.createElement(tag);
+      if (cls) el.className = cls;
+      if (text != null) el.textContent = text;
+      return el;
+    }
+    const tabs = mk('div', 'certs-tabs');
+    tabs.setAttribute('role', 'tablist');
+    const panel = mk('div', 'certs-panel');
+    panel.setAttribute('role', 'tabpanel');
+    const tabBtns = [];
+
+    function showType(t) {
+      tabBtns.forEach(b => {
+        const on = b.dataset.type === t;
+        b.classList.toggle('active', on);
+        b.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
+      panel.textContent = '';
+      panel.scrollTop = 0;
+      groups[t].forEach(i => {
+        const c = CERTS[i];
+        const card = mk('button', 'certs-card');
+        card.type = 'button';
+        const th = mk('span', 'certs-card-thumb');
+        const img = document.createElement('img');
+        img.alt = ''; img.loading = 'lazy'; img.src = c.src;
+        img.onerror = () => { img.style.display = 'none'; };
+        th.appendChild(img);
+        card.appendChild(th);
+        card.appendChild(mk('span', 'certs-card-title', c.title));
+        if (c.date) card.appendChild(mk('span', 'certs-card-date', c.date));
+        card.addEventListener('click', () => { closeAll(true); open(originals[i]); });
+        panel.appendChild(card);
+      });
+    }
+    types.forEach(t => {
+      const b = mk('button', 'certs-tab');
+      b.type = 'button'; b.dataset.type = t;
+      b.setAttribute('role', 'tab');
+      b.appendChild(mk('span', 'certs-tab-name', t));
+      b.appendChild(mk('span', 'certs-tab-count', String(groups[t].length)));
+      b.addEventListener('click', () => showType(t));
+      tabs.appendChild(b); tabBtns.push(b);
+    });
+    allBody.appendChild(tabs);
+    allBody.appendChild(panel);
+    showType(types[0]);
+
+    function openAll() {
+      allModal.classList.add('open');
+      allModal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      allClose.focus();
+    }
+    function closeAll(keepLock) {
+      allModal.classList.remove('open');
+      allModal.setAttribute('aria-hidden', 'true');
+      if (!keepLock) { document.body.style.overflow = ''; allBtn.focus({ preventScroll: true }); }
+    }
+    allBtn.addEventListener('click', openAll);
+    allClose.addEventListener('click', () => closeAll());
+    allModal.addEventListener('click', e => { if (e.target === allModal) closeAll(); });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && allModal.classList.contains('open')) closeAll();
+    });
+  }
 })();

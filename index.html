@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Christian A. Latunio | Computer Engineer Portfolio</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=20261029f">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -151,57 +151,110 @@
   <section id="certifications" class="experience-section">
     <div class="container">
       <h2 class="section-title reveal from-left">Certifications &amp; Achievements</h2>
-      <div class="timeline">
-
-        <div class="timeline-item reveal from-left">
-          <div class="timeline-meta">
-            <span class="timeline-year">2026</span>
-            <span class="timeline-tag">Training</span>
-          </div>
-          <div class="timeline-content">
-            <h3>Advanced Software Engineering &amp; Network Security Trainee</h3>
-            <p class="timeline-company">Sanfoundry &amp; Platforms</p>
-            <ul class="timeline-list">
-              <li>Completed multi-level certification programs, earning Grade A or higher across key computer engineering domains.</li>
-              <li>Mastered core programming architectures including Software Engineering, AI, JavaScript (300 hrs), Python, and C Programming.</li>
-              <li>Gained deep practical knowledge in Cryptography, Network Security, Cybersecurity, and SQL.</li>
-            </ul>
+      <h3 class="cert-subtitle cert-subtitle-all"><button type="button" class="cert-all-btn" id="cert-all-btn"><i class="fa-solid fa-certificate"></i> All Certificates <span class="cert-count">24</span></button></h3>
+      <div class="cert-slider" id="cert-slider">
+        <button type="button" class="cert-slide-btn cert-slide-prev" id="cert-slide-prev" aria-label="Slide left"><i class="fa-solid fa-chevron-left"></i></button>
+        <div class="cert-viewport" id="cert-viewport">
+          <div class="cert-track" id="cert-track">
+          <button type="button" class="cert-item" data-title="Champion – Essay Writing, Engineering Cup 2024" data-type="Achievements and Extracurricular" data-issuer="University of Batangas Student Government – College of Engineering (UBSG CENG)" data-date="May 8, 2024" data-location="Millenium Gymnasium, University of Batangas" data-about="Certificate of Participation recognizing Christian A. Latunio as Champion in Essay Writing during the Engineering Cup 2024 (team: CPESS – Violet Ravenous Harpy), for demonstrating exemplary proficiency and skills. Given on May 8, 2024 at Millenium Gymnasium, University of Batangas.">
+            <span class="cert-thumb"><i class="fa-solid fa-certificate cert-thumb-icon"></i><img src="certifications/achievements-1.png" alt="" loading="lazy" onerror="this.style.display='none'"></span>
+            <span class="cert-info"><span class="cert-name">Champion – Essay Writing, Engineering Cup 2024</span><span class="cert-line"><i class="fa-regular fa-calendar"></i>May 8, 2024</span><span class="cert-line"><i class="fa-solid fa-location-dot"></i>Millenium Gymnasium, University of Batangas</span></span>
+          </button>
+          <button type="button" class="cert-item" data-title="2nd Place – The InnovEng Challenge Essay Writing Competition" data-type="Achievements and Extracurricular" data-issuer="University of Batangas Student Government – College of Engineering (UBSG CENG)" data-date="April 21, 2025" data-location="University of Batangas" data-about="Certificate of Recognition for achieving 2nd Place in The InnovEng Challenge – Essay Writing Competition, held on April 13, 2025 with the theme “Engineering the Future: Innovation, Collaboration, and Excellence”. Given on April 21, 2025 at the University of Batangas.">
+            <span class="cert-thumb"><i class="fa-solid fa-certificate cert-thumb-icon"></i><img src="certifications/achievements-2.png" alt="" loading="lazy" onerror="this.style.display='none'"></span>
+            <span class="cert-info"><span class="cert-name">2nd Place – The InnovEng Challenge Essay Writing Competition</span><span class="cert-line"><i class="fa-regular fa-calendar"></i>April 21, 2025</span><span class="cert-line"><i class="fa-solid fa-location-dot"></i>University of Batangas</span></span>
+          </button>
+          <button type="button" class="cert-item" data-title="OJT Certificate of Completion – 320 Hours" data-type="Internship" data-issuer="Sophie’s Information Technology Services (SitesPhil)" data-date="August 2025" data-location="" data-about="Certificate of Completion for 320 hours of On-the-Job Training (internship) at Sophie’s Information Technology Services (SitesPhil), accomplished in August 2025. Signed by Sophia Ariane Zamora, Internship Supervisor.">
+            <span class="cert-thumb"><i class="fa-solid fa-certificate cert-thumb-icon"></i><img src="certifications/ojt-1.png" alt="" loading="lazy" onerror="this.style.display='none'"></span>
+            <span class="cert-info"><span class="cert-name">OJT Certificate of Completion – 320 Hours</span><span class="cert-line"><i class="fa-regular fa-calendar"></i>August 2025</span></span>
+          </button>
+          <button type="button" class="cert-item" data-title="ICpEP.se Region 4A Convention – Tech Tambayan" data-type="Achievements and Extracurricular" data-issuer="ICpEP.se Region 4A" data-date="November 15, 2025" data-location="University of Perpetual Help System DALTA – Molino Campus" data-about="Certificate of Participation in the ICpEP.se Region 4A Regional Convention, General Assembly, and CpE Challenge, with the theme “Tech Tambayan: Where Data and People Click”, held on November 15, 2025.">
+            <span class="cert-thumb"><i class="fa-solid fa-certificate cert-thumb-icon"></i><img src="certifications/achievements-3.png" alt="" loading="lazy" onerror="this.style.display='none'"></span>
+            <span class="cert-info"><span class="cert-name">ICpEP.se Region 4A Convention – Tech Tambayan</span><span class="cert-line"><i class="fa-regular fa-calendar"></i>November 15, 2025</span><span class="cert-line"><i class="fa-solid fa-location-dot"></i>University of Perpetual Help System DALTA – Molino Campus</span></span>
+          </button>
+          <button type="button" class="cert-item" data-title="Hazard Identification" data-type="Certifications and Training" data-issuer="JGDC Occupational Safety and Health Consultancy" data-date="January 7, 2026" data-location="University of Batangas, Hilltop National Road, Kumintang Ibaba, Batangas City" data-about="Certificate of Completion for the Hazard Identification training, held on January 7, 2026 at the University of Batangas. Certificate No. 26-JB0160-A.">
+            <span class="cert-thumb"><i class="fa-solid fa-certificate cert-thumb-icon"></i><img src="certifications/so2-1.png" alt="" loading="lazy" onerror="this.style.display='none'"></span>
+            <span class="cert-info"><span class="cert-name">Hazard Identification</span><span class="cert-line"><i class="fa-regular fa-calendar"></i>January 7, 2026</span><span class="cert-line"><i class="fa-solid fa-location-dot"></i>University of Batangas, Hilltop National Road, Kumintang Ibaba, Batangas City</span></span>
+          </button>
+          <button type="button" class="cert-item" data-title="Risk Assessment" data-type="Certifications and Training" data-issuer="JGDC Occupational Safety and Health Consultancy" data-date="January 8, 2026" data-location="University of Batangas, Hilltop National Road, Kumintang Ibaba, Batangas City" data-about="Certificate of Completion for the Risk Assessment training, held on January 8, 2026 at the University of Batangas. Certificate No. 26-JB0160-B.">
+            <span class="cert-thumb"><i class="fa-solid fa-certificate cert-thumb-icon"></i><img src="certifications/so2-2.png" alt="" loading="lazy" onerror="this.style.display='none'"></span>
+            <span class="cert-info"><span class="cert-name">Risk Assessment</span><span class="cert-line"><i class="fa-regular fa-calendar"></i>January 8, 2026</span><span class="cert-line"><i class="fa-solid fa-location-dot"></i>University of Batangas, Hilltop National Road, Kumintang Ibaba, Batangas City</span></span>
+          </button>
+          <button type="button" class="cert-item" data-title="Control Measure and Workshop" data-type="Certifications and Training" data-issuer="JGDC Occupational Safety and Health Consultancy" data-date="January 9, 2026" data-location="University of Batangas, Hilltop National Road, Kumintang Ibaba, Batangas City" data-about="Certificate of Completion for the Control Measure and Workshop training, held on January 9, 2026 at the University of Batangas. Certificate No. 26-JB0160-C.">
+            <span class="cert-thumb"><i class="fa-solid fa-certificate cert-thumb-icon"></i><img src="certifications/so2-3.png" alt="" loading="lazy" onerror="this.style.display='none'"></span>
+            <span class="cert-info"><span class="cert-name">Control Measure and Workshop</span><span class="cert-line"><i class="fa-regular fa-calendar"></i>January 9, 2026</span><span class="cert-line"><i class="fa-solid fa-location-dot"></i>University of Batangas, Hilltop National Road, Kumintang Ibaba, Batangas City</span></span>
+          </button>
+          <button type="button" class="cert-item" data-title="Basic Occupational Safety and Health for Safety Officer 2 (BOSH)" data-type="Certifications and Training" data-issuer="JGDC Occupational Safety and Health Consultancy" data-date="January 10, 2026" data-location="University of Batangas, Hilltop National Road, Kumintang Ibaba, Batangas City" data-about="Certificate of Completion for the DOLE-prescribed 40-hour Basic Occupational Safety and Health for Safety Officer 2 (BOSH) training course, pursuant to Section 32 of Republic Act No. 11058 and D.O. 198-18, held on January 6, 7, 8 &amp; 9, 2026 at the University of Batangas. Given on January 10, 2026. CN: 26-JB0160.">
+            <span class="cert-thumb"><i class="fa-solid fa-certificate cert-thumb-icon"></i><img src="certifications/so2-4.png" alt="" loading="lazy" onerror="this.style.display='none'"></span>
+            <span class="cert-info"><span class="cert-name">Basic Occupational Safety and Health for Safety Officer 2 (BOSH)</span><span class="cert-line"><i class="fa-regular fa-calendar"></i>January 10, 2026</span><span class="cert-line"><i class="fa-solid fa-location-dot"></i>University of Batangas, Hilltop National Road, Kumintang Ibaba, Batangas City</span></span>
+          </button>
+          <button type="button" class="cert-item" data-title="Digital Safety: Cybersecurity &amp; PNPKI" data-type="Webinars and Seminars" data-issuer="DICT – Cordillera Administrative Region (CAR)" data-date="January 28, 2026" data-location="Online via Zoom (DICT CAR, Baguio City)" data-about="Certificate of Participation in the four-hour “Digital Safety” webinar covering cybersecurity and an introduction to the Philippine National Public Key Infrastructure (PNPKI), held on January 28, 2026.">
+            <span class="cert-thumb"><i class="fa-solid fa-certificate cert-thumb-icon"></i><img src="certifications/talks-1.png" alt="" loading="lazy" onerror="this.style.display='none'"></span>
+            <span class="cert-info"><span class="cert-name">Digital Safety: Cybersecurity &amp; PNPKI</span><span class="cert-line"><i class="fa-regular fa-calendar"></i>January 28, 2026</span><span class="cert-line"><i class="fa-solid fa-location-dot"></i>Online via Zoom (DICT CAR, Baguio City)</span></span>
+          </button>
+          <button type="button" class="cert-item" data-title="Artificial Intelligence" data-type="Certifications and Training" data-issuer="Sanfoundry" data-date="January 2026" data-location="Online (Sanfoundry, Bangalore, India)" data-about="Online Certificate of Merit for outstanding performance in the 10-Level Artificial Intelligence Certification Test series, held in January 2026. Certificate No. SF20260131016.">
+            <span class="cert-thumb"><i class="fa-solid fa-certificate cert-thumb-icon"></i><img src="certifications/sanfoundry-2.png" alt="" loading="lazy" onerror="this.style.display='none'"></span>
+            <span class="cert-info"><span class="cert-name">Artificial Intelligence</span><span class="cert-line"><i class="fa-regular fa-calendar"></i>January 2026</span><span class="cert-line"><i class="fa-solid fa-location-dot"></i>Online (Sanfoundry, Bangalore, India)</span></span>
+          </button>
+          <button type="button" class="cert-item" data-title="HI + AI: Winning the Future of Work" data-type="Webinars and Seminars" data-issuer="DICT Region III (Aurora)" data-date="February 24–25, 2026" data-location="Baler, Aurora" data-about="Certificate of Participation for completing the four-hour training program “Human Intelligence Artificial Intelligence (HI + AI): Winning the Future of Work”, conducted by the ICT Literacy and Competency Development Bureau through DICT Aurora on February 24–25, 2026.">
+            <span class="cert-thumb"><i class="fa-solid fa-certificate cert-thumb-icon"></i><img src="certifications/talks-2.png" alt="" loading="lazy" onerror="this.style.display='none'"></span>
+            <span class="cert-info"><span class="cert-name">HI + AI: Winning the Future of Work</span><span class="cert-line"><i class="fa-regular fa-calendar"></i>February 24–25, 2026</span><span class="cert-line"><i class="fa-solid fa-location-dot"></i>Baler, Aurora</span></span>
+          </button>
+          <button type="button" class="cert-item" data-title="Cyber Security" data-type="Certifications and Training" data-issuer="Sanfoundry" data-date="February 2026" data-location="Online (Sanfoundry, Bangalore, India)" data-about="Online Certificate of Merit for outstanding performance in the 10-Level Cyber Security Certification Test series, held in February 2026. Certificate No. SF20260228065.">
+            <span class="cert-thumb"><i class="fa-solid fa-certificate cert-thumb-icon"></i><img src="certifications/sanfoundry-3.png" alt="" loading="lazy" onerror="this.style.display='none'"></span>
+            <span class="cert-info"><span class="cert-name">Cyber Security</span><span class="cert-line"><i class="fa-regular fa-calendar"></i>February 2026</span><span class="cert-line"><i class="fa-solid fa-location-dot"></i>Online (Sanfoundry, Bangalore, India)</span></span>
+          </button>
+          <button type="button" class="cert-item" data-title="Software Engineering" data-type="Certifications and Training" data-issuer="Sanfoundry" data-date="February 2026" data-location="Online (Sanfoundry, Bangalore, India)" data-about="Online Certificate of Merit for outstanding performance in the 10-Level Software Engineering Certification Test series, held in February 2026. Certificate No. SF20260228293.">
+            <span class="cert-thumb"><i class="fa-solid fa-certificate cert-thumb-icon"></i><img src="certifications/sanfoundry-1.png" alt="" loading="lazy" onerror="this.style.display='none'"></span>
+            <span class="cert-info"><span class="cert-name">Software Engineering</span><span class="cert-line"><i class="fa-regular fa-calendar"></i>February 2026</span><span class="cert-line"><i class="fa-solid fa-location-dot"></i>Online (Sanfoundry, Bangalore, India)</span></span>
+          </button>
+          <button type="button" class="cert-item" data-title="Soft Skills for Engineers" data-type="Webinars and Seminars" data-issuer="University of Batangas – College of Engineering" data-date="March 25, 2026" data-location="University of Batangas, Batangas City" data-about="Certificate of Participation in the “Soft Skills for Engineers” seminar, held on March 25, 2026 at the University of Batangas, Batangas City.">
+            <span class="cert-thumb"><i class="fa-solid fa-certificate cert-thumb-icon"></i><img src="certifications/talks-3.png" alt="" loading="lazy" onerror="this.style.display='none'"></span>
+            <span class="cert-info"><span class="cert-name">Soft Skills for Engineers</span><span class="cert-line"><i class="fa-regular fa-calendar"></i>March 25, 2026</span><span class="cert-line"><i class="fa-solid fa-location-dot"></i>University of Batangas, Batangas City</span></span>
+          </button>
+          <button type="button" class="cert-item" data-title="Python Programming" data-type="Certifications and Training" data-issuer="Sanfoundry" data-date="March 2026" data-location="Online (Sanfoundry, Bangalore, India)" data-about="Online Certificate of Merit for outstanding performance in the 10-Level Python Programming Certification Test series, held in March 2026. Certificate No. SF20260331369.">
+            <span class="cert-thumb"><i class="fa-solid fa-certificate cert-thumb-icon"></i><img src="certifications/sanfoundry-4.png" alt="" loading="lazy" onerror="this.style.display='none'"></span>
+            <span class="cert-info"><span class="cert-name">Python Programming</span><span class="cert-line"><i class="fa-regular fa-calendar"></i>March 2026</span><span class="cert-line"><i class="fa-solid fa-location-dot"></i>Online (Sanfoundry, Bangalore, India)</span></span>
+          </button>
+          <button type="button" class="cert-item" data-title="Data Privacy Awareness" data-type="Webinars and Seminars" data-issuer="DICT Region III (Bulacan)" data-date="April 16, 2026" data-location="DICT Bulacan Provincial Office (online)" data-about="Certificate of Participation in the four-hour “Data Privacy Awareness” webinar, conducted by the ICT Literacy and Competency Development Bureau through DICT Bulacan on April 16, 2026.">
+            <span class="cert-thumb"><i class="fa-solid fa-certificate cert-thumb-icon"></i><img src="certifications/talks-4.png" alt="" loading="lazy" onerror="this.style.display='none'"></span>
+            <span class="cert-info"><span class="cert-name">Data Privacy Awareness</span><span class="cert-line"><i class="fa-regular fa-calendar"></i>April 16, 2026</span><span class="cert-line"><i class="fa-solid fa-location-dot"></i>DICT Bulacan Provincial Office (online)</span></span>
+          </button>
+          <button type="button" class="cert-item" data-title="Introduction to SQL" data-type="Certifications and Training" data-issuer="Simplilearn SkillUP" data-date="April 28, 2026" data-location="Online" data-about="Certificate of Completion for the online course “Introduction to SQL” from Simplilearn SkillUP. Certificate code 10163390.">
+            <span class="cert-thumb"><i class="fa-solid fa-certificate cert-thumb-icon"></i><img src="certifications/simplilearn-1.png" alt="" loading="lazy" onerror="this.style.display='none'"></span>
+            <span class="cert-info"><span class="cert-name">Introduction to SQL</span><span class="cert-line"><i class="fa-regular fa-calendar"></i>April 28, 2026</span><span class="cert-line"><i class="fa-solid fa-location-dot"></i>Online</span></span>
+          </button>
+          <button type="button" class="cert-item" data-title="C Programming" data-type="Certifications and Training" data-issuer="Sanfoundry" data-date="April 2026" data-location="Online (Sanfoundry, Bangalore, India)" data-about="Online Certificate of Merit for outstanding performance in the 10-Level C Programming Certification Test series, held in April 2026. Certificate No. SF20260430029.">
+            <span class="cert-thumb"><i class="fa-solid fa-certificate cert-thumb-icon"></i><img src="certifications/sanfoundry-5.png" alt="" loading="lazy" onerror="this.style.display='none'"></span>
+            <span class="cert-info"><span class="cert-name">C Programming</span><span class="cert-line"><i class="fa-regular fa-calendar"></i>April 2026</span><span class="cert-line"><i class="fa-solid fa-location-dot"></i>Online (Sanfoundry, Bangalore, India)</span></span>
+          </button>
+          <button type="button" class="cert-item" data-title="Cryptography &amp; Network Security" data-type="Certifications and Training" data-issuer="Sanfoundry" data-date="April 2026" data-location="Online (Sanfoundry, Bangalore, India)" data-about="Online Certificate of Merit for outstanding performance in the 10-Level Cryptography and Network Security Certification Test series, held in April 2026. Certificate No. SF20260430082.">
+            <span class="cert-thumb"><i class="fa-solid fa-certificate cert-thumb-icon"></i><img src="certifications/sanfoundry-6.png" alt="" loading="lazy" onerror="this.style.display='none'"></span>
+            <span class="cert-info"><span class="cert-name">Cryptography &amp; Network Security</span><span class="cert-line"><i class="fa-regular fa-calendar"></i>April 2026</span><span class="cert-line"><i class="fa-solid fa-location-dot"></i>Online (Sanfoundry, Bangalore, India)</span></span>
+          </button>
+          <button type="button" class="cert-item" data-title="JavaScript Developer Certification (300 hrs)" data-type="Certifications and Training" data-issuer="freeCodeCamp" data-date="May 3, 2026" data-location="Online" data-about="Developer Certification in JavaScript from freeCodeCamp, representing approximately 300 hours of work. Verify at freecodecamp.org/certification/kaito2094/javascript-v9.">
+            <span class="cert-thumb"><i class="fa-solid fa-certificate cert-thumb-icon"></i><img src="certifications/freecodecamp-1.png" alt="" loading="lazy" onerror="this.style.display='none'"></span>
+            <span class="cert-info"><span class="cert-name">JavaScript Developer Certification (300 hrs)</span><span class="cert-line"><i class="fa-regular fa-calendar"></i>May 3, 2026</span><span class="cert-line"><i class="fa-solid fa-location-dot"></i>Online</span></span>
+          </button>
+          <button type="button" class="cert-item" data-title="Winning Your First Job: Personal Branding through Resumes, Interviews, and Professional Etiquette" data-type="Webinars and Seminars" data-issuer="University of Batangas – Student Affairs and External Programs Office" data-date="June 3, 2026" data-location="J.Y. Javier Auditorium, University of Batangas, Hilltop Batangas City" data-about="Certificate of Participation in the seminar “Winning Your First Job: Personal Branding through Resumes, Interviews, and Professional Etiquette”, held during the Career Fair 2026 (theme: “Career-Ready and Future-Fit: Empowering UBians for Meaningful Work and Sustainable Careers”) on June 3, 2026.">
+            <span class="cert-thumb"><i class="fa-solid fa-certificate cert-thumb-icon"></i><img src="certifications/webinar-2.png" alt="" loading="lazy" onerror="this.style.display='none'"></span>
+            <span class="cert-info"><span class="cert-name">Winning Your First Job: Personal Branding through Resumes, Interviews, and Professional Etiquette</span><span class="cert-line"><i class="fa-regular fa-calendar"></i>June 3, 2026</span><span class="cert-line"><i class="fa-solid fa-location-dot"></i>J.Y. Javier Auditorium, University of Batangas, Hilltop Batangas City</span></span>
+          </button>
+          <button type="button" class="cert-item" data-title="From Campus to Company: Real-World Preparation for Your First Job" data-type="Webinars and Seminars" data-issuer="University of Batangas – Student Affairs and External Programs Office" data-date="June 5, 2026" data-location="J.Y. Javier Auditorium, University of Batangas, Hilltop Batangas City" data-about="Certificate of Participation in the dialogue with Industry Representatives and Alumni, “From Campus to Company: Real-World Preparation for Your First Job”, held during the Career Fair 2026 (theme: “Career-Ready and Future-Fit: Empowering UBians for Meaningful Work and Sustainable Careers”) on June 5, 2026.">
+            <span class="cert-thumb"><i class="fa-solid fa-certificate cert-thumb-icon"></i><img src="certifications/webinar-4.png" alt="" loading="lazy" onerror="this.style.display='none'"></span>
+            <span class="cert-info"><span class="cert-name">From Campus to Company: Real-World Preparation for Your First Job</span><span class="cert-line"><i class="fa-regular fa-calendar"></i>June 5, 2026</span><span class="cert-line"><i class="fa-solid fa-location-dot"></i>J.Y. Javier Auditorium, University of Batangas, Hilltop Batangas City</span></span>
+          </button>
+          <button type="button" class="cert-item" data-title="Anti-Illegal Recruitment" data-type="Webinars and Seminars" data-issuer="University of Batangas – Student Affairs and External Programs Office" data-date="June 9, 2026" data-location="Online via Zoom and FB Simulcast" data-about="Certificate of Participation in the “Anti-Illegal Recruitment” webinar, held during the Career Fair 2026 (theme: “Career-Ready and Future-Fit: Empowering UBians for Meaningful Work and Sustainable Careers”) on June 9, 2026.">
+            <span class="cert-thumb"><i class="fa-solid fa-certificate cert-thumb-icon"></i><img src="certifications/webinar-3.png" alt="" loading="lazy" onerror="this.style.display='none'"></span>
+            <span class="cert-info"><span class="cert-name">Anti-Illegal Recruitment</span><span class="cert-line"><i class="fa-regular fa-calendar"></i>June 9, 2026</span><span class="cert-line"><i class="fa-solid fa-location-dot"></i>Online via Zoom and FB Simulcast</span></span>
+          </button>
+          <button type="button" class="cert-item" data-title="Know Your Rights: Labor Education and Government-Mandated Benefits and Services" data-type="Webinars and Seminars" data-issuer="University of Batangas – Student Affairs and External Programs Office" data-date="June 9, 2026" data-location="Online via Zoom and FB Simulcast" data-about="Certificate of Participation in the “Know Your Rights: Labor Education and Government-Mandated Benefits and Services” webinar, held during the Career Fair 2026 (theme: “Career-Ready and Future-Fit: Empowering UBians for Meaningful Work and Sustainable Careers”) on June 9, 2026.">
+            <span class="cert-thumb"><i class="fa-solid fa-certificate cert-thumb-icon"></i><img src="certifications/webinar-1.png" alt="" loading="lazy" onerror="this.style.display='none'"></span>
+            <span class="cert-info"><span class="cert-name">Know Your Rights: Labor Education and Government-Mandated Benefits and Services</span><span class="cert-line"><i class="fa-regular fa-calendar"></i>June 9, 2026</span><span class="cert-line"><i class="fa-solid fa-location-dot"></i>Online via Zoom and FB Simulcast</span></span>
+          </button>
           </div>
         </div>
-
-        <div class="timeline-item reveal from-right">
-          <div class="timeline-meta">
-            <span class="timeline-year">2025–2026</span>
-            <span class="timeline-tag">Compliance</span>
-          </div>
-          <div class="timeline-content">
-            <h3>Emerging Technology &amp; Compliance Practitioner</h3>
-            <p class="timeline-company">DICT &amp; JGDC Occupational Safety Consultancy</p>
-            <ul class="timeline-list">
-              <li>Completed the DOLE-prescribed 40-hour Training Course for Safety Officer 2 (SO2) under RA No. 11058 and D.O. 198-18.</li>
-              <li>Completed an intensive safety module workshop series covering Hazard Identification, Risk Assessment, and Control Measure Implementation.</li>
-              <li>Completed DICT training modules on Human Intelligence + AI (HI+AI), Data Privacy Awareness, and Digital Safety &amp; PNPKI.</li>
-              <li>Certified in UX design for AI/ML through the "Designing Intelligence" seminar and completed the "Soft Skills for Engineers" curriculum.</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="timeline-item reveal from-left">
-          <div class="timeline-meta">
-            <span class="timeline-year">2024–2025</span>
-            <span class="timeline-tag">Leadership</span>
-          </div>
-          <div class="timeline-content">
-            <h3>Engineering Delegate &amp; Technical Writer</h3>
-            <p class="timeline-company">ICpEP.se &amp; UB Engineering</p>
-            <ul class="timeline-list">
-              <li>Represented the University of Batangas at the ICpEP.se Region 4A Regional Convention, General Assembly, and CpE Challenge (Tech Tambayan 2025).</li>
-              <li>&#x1F3C6; 1st Place (Champion) — 2024 Engineering Cup for exceptional technical writing.</li>
-              <li>&#x1F948; 2nd Place — 2025 InnovEng Essay Writing Competition for excellence in advanced technology frameworks.</li>
-            </ul>
-          </div>
-        </div>
-
+        <button type="button" class="cert-slide-btn cert-slide-next" id="cert-slide-next" aria-label="Slide right"><i class="fa-solid fa-chevron-right"></i></button>
       </div>
     </div>
   </section>
@@ -299,6 +352,49 @@
       <div class="exp-modal-content" id="exp-modal-content"></div>
     </div>
   </div>
-<script src="script.js"></script>
+
+  <!-- CERTIFICATE VIEWER -->
+  <div class="cert-modal" id="cert-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="cert-modal-title">
+    <div class="cert-dialog">
+      <button type="button" class="cert-close" id="cert-close" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+      <div class="cert-modal-grid">
+        <div class="cert-left">
+          <div class="cert-picture" id="cert-picture">
+            <img id="cert-modal-img" alt="Certificate" hidden draggable="false">
+            <p class="cert-missing" id="cert-missing" hidden></p>
+            <div class="cert-zoombar" id="cert-zoombar">
+              <button type="button" id="cert-zoom-out" aria-label="Zoom out"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
+              <button type="button" id="cert-zoom-level" class="cert-zoom-level" title="Reset to 100%">100%</button>
+              <button type="button" id="cert-zoom-in" aria-label="Zoom in"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+            </div>
+          </div>
+          <dl class="cert-facts">
+            <div class="cert-fact"><dt>Date Issued</dt><dd id="cert-f-date"></dd></div>
+            <div class="cert-fact"><dt>Category</dt><dd id="cert-f-type"></dd></div>
+            <div class="cert-fact"><dt>Issuer</dt><dd id="cert-f-issuer"></dd></div>
+          </dl>
+        </div>
+        <div class="cert-right">
+          <span class="cert-modal-type" id="cert-modal-type"></span>
+          <h3 id="cert-modal-title">Certificate</h3>
+          <h4>About this certificate</h4>
+          <p class="cert-about" id="cert-modal-about"></p>
+          <div class="cert-pager">
+            <button type="button" class="cert-nav" id="cert-prev" aria-label="Previous certificate"><i class="fa-solid fa-chevron-left"></i></button>
+            <button type="button" class="cert-nav" id="cert-next" aria-label="Next certificate"><i class="fa-solid fa-chevron-right"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ALL CERTIFICATES (categorized list) -->
+  <div class="cert-modal" id="certs-all-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="certs-all-title">
+    <div class="cert-dialog certs-all-dialog">
+      <button type="button" class="cert-close" id="certs-all-close" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+      <h3 class="certs-all-title" id="certs-all-title"><i class="fa-solid fa-certificate"></i> All Certificates</h3>
+      <div class="certs-all-body" id="certs-all-body"></div>
+    </div>
+  </div>
+<script src="script.js?v=20261029f"></script>
 </body>
 </html>
