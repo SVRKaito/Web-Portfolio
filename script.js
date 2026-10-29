@@ -1,4 +1,4 @@
-// Animated Particle Background
+// ── 1. Animated Particle Background ──
 (function () {
   const canvas = document.getElementById('bg-canvas');
   const ctx = canvas.getContext('2d');
@@ -168,9 +168,9 @@ let activeTimers = [];  // every pending interval/timeout, so reset can cancel t
 
 const lines = [
   { type: 'prompt',   text: 'cat biography.txt' },
-  { type: 'response', text: 'Aspiring hardware and software specialist with a strong foundation in computer engineering, system development, network automation, and hardware optimization. Proven track record in technical writing and academic excellence, combined with multi-level certifications in programming, cybersecurity, and workplace regulatory safety compliance.' },
+  { type: 'response', text: "I'm a Computer Engineering graduate from the University of Batangas who builds across software and hardware. I like connecting what people need with how it actually gets built, and I enjoy understanding how each layer works. My work covers web development, embedded systems, and IT operations." },
   { type: 'prompt',   text: 'cat current-focus.txt' },
-  { type: 'response', text: '> Linux Environments, Network Infrastructure Security, CI/CD Pipeline Automation, and Edge AI.' },
+  { type: 'response', text: '> Full-stack web development, Linux, network security, and Embedded systems.' },
   { type: 'prompt',   text: 'whoami' },
   { type: 'response', text: '> Christian A. Latunio | BS Computer Engineering | University of Batangas' },
 ];
@@ -711,4 +711,48 @@ window.addEventListener('scroll', () => {
       if (e.key === 'Escape' && allModal.classList.contains('open')) closeAll();
     });
   }
+})();
+
+// ── Project pop-up ──
+(function () {
+  const modal = document.getElementById('proj-modal');
+  if (!modal) return;
+  const $ = id => document.getElementById(id);
+  const img = $('proj-modal-img'), miss = $('proj-missing');
+  let lastCard = null;
+  function openProj(card) {
+    const d = card.dataset;
+    lastCard = card;
+    $('proj-modal-title').textContent = d.title || '';
+    $('proj-modal-type').textContent = d.type || '';
+    $('proj-f-type').textContent = d.type || '';
+    $('proj-modal-about').textContent = d.about || '';
+    img.hidden = true; miss.hidden = false;
+    if (d.img) {
+      img.onload = () => { img.hidden = false; miss.hidden = true; };
+      img.onerror = () => { img.hidden = true; miss.hidden = false; };
+      img.src = d.img;
+    }
+    const st = $('proj-stack');
+    st.textContent = '';
+    (d.stack || '').split(',').map(x => x.trim()).filter(Boolean).forEach(t => {
+      const li = document.createElement('li');
+      li.textContent = t;
+      st.appendChild(li);
+    });
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    $('proj-close').focus();
+  }
+  function closeProj() {
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    if (lastCard) lastCard.focus({ preventScroll: true });
+  }
+  document.querySelectorAll('.project-card').forEach(c => c.addEventListener('click', () => openProj(c)));
+  $('proj-close').addEventListener('click', closeProj);
+  modal.addEventListener('click', e => { if (e.target === modal) closeProj(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal.classList.contains('open')) closeProj(); });
 })();

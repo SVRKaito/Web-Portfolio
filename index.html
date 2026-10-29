@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Christian A. Latunio | Computer Engineer Portfolio</title>
-  <link rel="stylesheet" href="style.css?v=20261029f">
+  <link rel="stylesheet" href="style.css?v=20261029n">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -262,24 +262,13 @@
   <!-- PROJECTS -->
   <section id="projects" class="projects-section">
     <div class="container">
-      <h2 class="section-title reveal from-left">Deployed Repositories</h2>
-
-      <div class="filter-container">
-        <button class="filter-btn active" data-filter="all">All</button>
-        <button class="filter-btn" data-filter="web">Web</button>
-        <button class="filter-btn" data-filter="systems">Systems</button>
-        <button class="filter-btn" data-filter="automation">Automation</button>
-      </div>
+      <h2 class="section-title reveal from-left">All Projects</h2>
 
       <div class="projects-grid">
-        <div class="project-card reveal" data-category="web">
-          <div class="project-tags"><span>Web</span></div>
-          <h3>SBAR Tool for Nurses</h3>
-          <p>Designed, developed, and deployed a full web application for nursing professionals — a structured communication tool based on the SBAR (Situation, Background, Assessment, Recommendation) framework.</p>
-          <a href="https://sbartools.pages.dev/" target="_blank" rel="noopener noreferrer" class="contact-link" style="margin-top:1rem; font-size:0.85rem;">
-            <i class="fa-solid fa-arrow-up-right-from-square"></i>Live Site
-          </a>
-        </div>
+        <button type="button" class="project-card cert-item reveal" data-category="web" data-title="SBAR Tool for Nurses" data-type="Web Application" data-stack="HTML,CSS,JavaScript,Firebase" data-img="sbar.png" data-about="Designed, developed, and deployed a full web application for nursing professionals — a structured communication tool based on the SBAR (Situation, Background, Assessment, Recommendation) framework.">
+          <span class="cert-thumb"><i class="fa-solid fa-laptop-code cert-thumb-icon"></i><img src="sbar.png" alt="" loading="lazy" onerror="this.style.display='none'"></span>
+          <span class="cert-info"><span class="cert-name">SBAR Tool for Nurses</span><span class="cert-line"><i class="fa-solid fa-globe"></i>Web Application</span></span>
+        </button>
 
       </div>
     </div>
@@ -395,6 +384,28 @@
       <div class="certs-all-body" id="certs-all-body"></div>
     </div>
   </div>
-<script src="script.js?v=20261029f"></script>
+  <!-- PROJECT VIEWER -->
+  <div class="cert-modal" id="proj-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="proj-modal-title">
+    <div class="cert-dialog">
+      <button type="button" class="cert-close" id="proj-close" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+      <div class="cert-modal-grid">
+        <div class="cert-left">
+          <div class="cert-picture"><img id="proj-modal-img" alt="Project preview" hidden draggable="false"><p class="cert-missing" id="proj-missing">No picture yet</p></div>
+          <dl class="cert-facts">
+            <div class="cert-fact"><dt>Category</dt><dd id="proj-f-type"></dd></div>
+          </dl>
+        </div>
+        <div class="cert-right">
+          <span class="cert-modal-type" id="proj-modal-type"></span>
+          <h3 id="proj-modal-title">Project</h3>
+          <h4>About this project</h4>
+          <p class="cert-about" id="proj-modal-about"></p>
+          <h4 class="proj-stack-head">Built with</h4>
+          <ul class="proj-stack" id="proj-stack"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+<script src="script.js?v=20261029n"></script>
 </body>
 </html>
