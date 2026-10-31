@@ -1281,14 +1281,16 @@ html body > #cert-modal.cert-modal { position: fixed; inset: 0; z-index: 2000; }
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: rgba(10, 10, 16, 0.85);
-  border: 1px solid rgba(59, 130, 246, 0.4);
-  border-radius: 50%;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
   color: #fff;
+  font-size: 1.6rem;
   cursor: pointer;
-  transition: background 0.2s;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.8));
+  transition: color 0.2s, transform 0.2s;
 }
-.cert-slide-btn:hover { background: var(--primary-accent); }
+.cert-slide-btn:hover { background: transparent; color: var(--primary-accent); transform: translateY(-50%) scale(1.15); }
 .cert-slide-prev { left: 0.2rem; }
 .cert-slide-next { right: 0.2rem; }
 
@@ -1339,7 +1341,26 @@ html body > #cert-modal.cert-modal { position: fixed; inset: 0; z-index: 2000; }
   .cert-dialog { max-height: 94vh; padding: 1.1rem; }
 }
 
-.cert-slide-btn[hidden] { display: none; }
+/* expanded certificate pop-up: no prev / next arrows */
+.cert-pager { display: none !important; }
+
+/* note under the certificates row */
+.cert-hint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 0.4rem;
+  font-family: monospace;
+  font-size: 0.82rem;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+}
+.cert-hint i { color: var(--primary-accent); }
+
+/* slide arrows removed: the row still slides by dragging / swiping */
+.cert-slide-btn,
+.cert-slide-btn[hidden] { display: none !important; }
 
 /* ── Certificates: align the card(s) in the center of the section ── */
 .cert-track { margin: 0 auto; }              /* centers when they fit, scrolls normally when they don't */
@@ -1660,3 +1681,110 @@ html body > #proj-modal.cert-modal {
 .logo-img { height: 38px; width: auto; display: block; transition: transform 0.2s, filter 0.2s; }
 .logo:hover .logo-img { transform: scale(1.06); filter: drop-shadow(0 0 8px rgba(0, 210, 255, 0.55)); }
 @media (max-width: 400px) { .logo-img { height: 32px; } }
+/* ════════════════════════════════════════════
+   PHONE / TABLET RESPONSIVE FIXES
+   ════════════════════════════════════════════ */
+
+/* never let the page scroll sideways */
+html, body { max-width: 100%; overflow-x: clip; }
+img { max-width: 100%; }
+
+/* ── Tablet ── */
+@media (max-width: 1024px) {
+  .nav-links { gap: 1.1rem; }
+  .container { padding: 0 1.25rem; }
+}
+
+/* ── Phone + small tablet ── */
+@media (max-width: 768px) {
+  /* navbar: dropdown sits right under the bar (the logo makes the bar taller than 57px) */
+  .nav-container { padding: 0.7rem 1.1rem; }
+  .nav-links {
+    top: 100%;
+    max-height: calc(100vh - 70px);
+    overflow-y: auto;
+    flex-wrap: nowrap;
+    box-shadow: 0 16px 30px rgba(0, 0, 0, 0.5);
+  }
+  .nav-links a { display: block; padding: 0.3rem 0; font-size: 1rem; }
+  .menu-toggle { padding: 10px; margin-right: -10px; }
+  .menu-toggle.open .bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .menu-toggle.open .bar:nth-child(2) { opacity: 0; }
+  .menu-toggle.open .bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* hero: let the roles line wrap instead of running off the screen */
+  .hero { padding: 6rem 1rem 2.5rem; }
+  .hero h2.hero-roles { white-space: normal; line-height: 1.6; padding: 0 0.5rem; }
+  .terminal-badge { font-size: 0.78rem; }
+
+  /* sections */
+  section { padding: 3.2rem 0; }
+  .container { padding: 0 1rem; }
+  .section-title { margin-bottom: 1.6rem; padding-left: 0.8rem; border-left-width: 3px; }
+
+  /* about terminal */
+  .terminal-body { padding: 0.9rem; line-height: 1.7; }
+
+  /* experience cards */
+  .exp-grid { padding-left: 1rem; padding-right: 1rem; }
+  .exp-grid .exp-mini { flex-basis: 86%; }
+  .exp-title { font-size: 1.1rem; }
+
+  /* certificates + projects cards */
+  .cert-track { gap: 1rem; }
+  .cert-track .cert-item { flex-basis: min(80vw, 300px); }
+  .cert-viewport { -webkit-overflow-scrolling: touch; touch-action: pan-x pan-y; }
+  .cert-info { padding: 0.9rem 1rem 1.1rem; }
+  .cert-info .cert-name { font-size: 1rem; }
+  .cert-line { font-size: 0.82rem; }
+  .cert-hint { font-size: 0.75rem; }
+  .projects-grid .project-card.cert-item { flex-basis: min(86vw, 340px); }
+  .cert-all-btn { padding: 0.5rem 1rem; font-size: 0.8rem; }
+
+  /* pop-ups: full-width sheets that scroll inside */
+  .cert-modal, .exp-modal, .resume-modal { padding: 0.5rem; }
+  .cert-dialog { max-height: 92vh; padding: 2.9rem 1rem 1.1rem; border-radius: 12px; }
+  .cert-close { top: 0.6rem; right: 0.6rem; width: 38px; height: 38px; font-size: 1.1rem; }
+  .cert-modal-grid { gap: 1.1rem; }
+  .cert-right h3 { font-size: 1.1rem; margin-bottom: 1rem; }
+  .cert-picture img { max-height: 46vh; }
+  .cert-fact { flex-direction: column; gap: 0.15rem; }
+  .cert-fact dd { text-align: left; }
+  .exp-dialog { padding: 1rem 1rem 1.3rem; }
+  .exp-modal-close { width: 38px; height: 38px; }
+  .exp-modal-bar { padding-right: 2.6rem; margin-bottom: 1rem; }
+  .exp-row-item { flex-direction: column; gap: 0.15rem; }
+  .exp-facts dd { text-align: left; }
+  .resume-dialog { height: 94vh; border-radius: 10px; }
+  .resume-bar { padding: 0.5rem 0.7rem; }
+
+  /* all-certificates pop-up: categories on top, one column of cards */
+  .certs-all-dialog { height: 92vh; padding: 2.9rem 0.9rem 0.9rem; }
+  .certs-all-title { margin: 0 0 0.8rem; font-size: 1.05rem; position: absolute; top: 0.8rem; left: 1rem; }
+  .certs-panel { grid-template-columns: 1fr; }
+  .certs-tab { padding: 0.55rem 0.75rem; }
+
+  /* contact */
+  .contact-link { white-space: normal; word-break: break-word; text-align: center; }
+  .contact-form { width: 100%; }
+  .form-group input, .form-group textarea { font-size: 16px; } /* stops iOS zoom-on-focus */
+  .footer-icons { gap: 1.2rem; }
+}
+
+/* ── Small phones ── */
+@media (max-width: 400px) {
+  .nav-container { padding: 0.6rem 0.9rem; }
+  .hero { padding-top: 5.5rem; }
+  .hero-cta .btn { max-width: 100%; }
+  .exp-grid .exp-mini { flex-basis: 90%; }
+  .cert-track .cert-item { flex-basis: 82vw; }
+  .skill-card { padding: 1.2rem 1rem; }
+  .cert-dialog { padding: 2.9rem 0.8rem 1rem; }
+}
+
+/* touch screens: show the "View Details" pill only when tapping, never stuck on */
+@media (hover: none) {
+  .cert-track .cert-thumb::after,
+  .projects-grid .cert-thumb::after { display: none; }
+  .cert-item:hover { transform: none; }
+}
