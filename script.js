@@ -231,16 +231,23 @@ function resetTerminal() {
   typingStarted = false;
 }
 
+// Why it did not restart before: the observer watched the whole About section, and the browser
+// still counts a section as "intersecting" while it only touches the screen edge (which is exactly
+// where a nav click on Skills leaves it), so the terminal was never cleared and could not replay.
+// Now it watches the terminal window itself inside a slightly shrunken view area (rootMargin), so
+// "out of view" really means out, and it only starts typing once most of the terminal is on screen.
 const terminalObserver = new IntersectionObserver(entries => {
   entries.forEach(entry => {
-    if (!entry.isIntersecting) {
-      // About fully scrolled out of view -> clear it so it replays next time
+    if (!entry.isIntersecting || entry.intersectionRatio === 0) {
+      // terminal left the screen -> clear it so it replays next time
       if (typingStarted) resetTerminal();
-    } else if (entry.intersectionRatio >= 0.15 && !typingStarted) {
-      startTerminal();
+    } else if (!typingStarted) {
+      const vh = entry.rootBounds ? entry.rootBounds.height : window.innerHeight;
+      // mostly visible, or (on very short screens) it fills most of the view area
+      if (entry.intersectionRatio >= 0.5 || entry.intersectionRect.height >= vh * 0.6) startTerminal();
     }
   });
-}, { threshold: [0, 0.15] });
+}, { threshold: [0, 0.25, 0.5, 0.75, 1], rootMargin: '-12% 0px -12% 0px' });
 
 // Reserve the terminal's final height so the page below does not jump up/down when the
 // terminal is cleared (or while it types) - matters most on phones/tablets where the text wraps a lot.
@@ -281,7 +288,7 @@ window.addEventListener('resize', () => {
   terminalResizeT = setTimeout(reserveTerminalHeight, 150);
 });
 
-terminalObserver.observe(document.getElementById('about'));
+terminalObserver.observe(terminalOutput.closest('.terminal-window') || document.getElementById('about'));
 
 // ── 7. Scroll Reveal ──
 const revealEls = document.querySelectorAll('.reveal');
