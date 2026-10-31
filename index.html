@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Christian A. Latunio | Computer Engineer Portfolio</title>
-  <link rel="icon" type="image/x-icon" href="/favicon.ico">
-  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/x-icon" href="Pictures and logos/Web logo 2_20261031144106.png">
+  <link rel="stylesheet" href="style.css?v=2">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -13,7 +13,7 @@
 
   <nav class="navbar">
     <div class="nav-container">
-      <a href="#" class="logo" aria-label="C. Latunio – home"><img src="Pictures and logos/Web logo 2_20261030202050.png" alt="CL logo" class="logo-img"></a>
+      <a href="#" class="logo" aria-label="C. Latunio – home"><img src="Pictures and logos/Web logo 2_20261031144106.png" alt="CL logo" class="logo-img"></a>
       <ul class="nav-links">
         <li><a href="#about">About</a></li>
         <li><a href="#skills">Skills</a></li>
@@ -105,7 +105,7 @@
           <button type="button" class="exp-open" data-target="exp-sitesphil" aria-haspopup="dialog">
             <span class="exp-cover">
               <i class="fa-solid fa-building exp-cover-icon"></i>
-              <img src="sitesphil.png" alt="" onerror="this.style.display='none'">
+              <img src="Pictures and logos/OJT.jpg" alt="" onerror="this.style.display='none'">
               <span class="exp-viewpill">View Details</span>
             </span>
             <span class="exp-info">
@@ -132,7 +132,12 @@
               <div class="exp-modal-left">
                 <div class="exp-modal-cover">
                   <i class="fa-solid fa-building exp-cover-icon"></i>
-                  <img src="sitesphil.png" alt="" onerror="this.style.display='none'">
+                  <img src="Pictures and logos/OJT.jpg" alt="" draggable="false" onerror="this.style.display='none'">
+                  <div class="cert-zoombar" hidden>
+                    <button type="button" data-zoom="out" aria-label="Zoom out"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
+                    <button type="button" data-zoom="level" class="cert-zoom-level" title="Reset to 100%">100%</button>
+                    <button type="button" data-zoom="in" aria-label="Zoom in"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+                  </div>
                 </div>
                 <dl class="exp-facts"><div class="exp-row-item"><dt>Period</dt><dd>2025 (finished Aug 12, 2025)</dd></div><div class="exp-row-item"><dt>Duration</dt><dd>320 hours</dd></div><div class="exp-row-item"><dt>Type</dt><dd>On-the-Job Training</dd></div></dl>
               </div>
@@ -267,8 +272,8 @@
       <h2 class="section-title reveal from-left">All Projects</h2>
 
       <div class="projects-grid">
-        <button type="button" class="project-card cert-item reveal" data-category="web" data-title="SBAR Tool for Nurses" data-type="Web Application" data-stack="HTML,CSS,JavaScript,Firebase" data-img="sbar.png" data-about="Designed, developed, and deployed a full web application for nursing professionals — a structured communication tool based on the SBAR (Situation, Background, Assessment, Recommendation) framework.">
-          <span class="cert-thumb"><i class="fa-solid fa-laptop-code cert-thumb-icon"></i><img src="sbar.png" alt="" loading="lazy" onerror="this.style.display='none'"></span>
+        <button type="button" class="project-card cert-item reveal" data-category="web" data-title="SBAR Tool for Nurses" data-type="Web Application" data-stack="HTML,CSS,JavaScript,Firebase,Cloudflare" data-duration="3 months" data-status="Deployed" data-img="Pictures and logos/SBAR.png" data-about="Designed, developed, and deployed a full web application for nursing professionals — a structured communication tool based on the SBAR (Situation, Background, Assessment, Recommendation) framework.">
+          <span class="cert-thumb"><i class="fa-solid fa-laptop-code cert-thumb-icon"></i><img src="Pictures and logos/SBAR.png" alt="" loading="lazy" onerror="this.style.display='none'"></span>
           <span class="cert-info"><span class="cert-name">SBAR Tool for Nurses</span><span class="cert-line"><i class="fa-solid fa-globe"></i>Web Application</span></span>
         </button>
 
@@ -392,9 +397,19 @@
       <button type="button" class="cert-close" id="proj-close" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
       <div class="cert-modal-grid">
         <div class="cert-left">
-          <div class="cert-picture"><img id="proj-modal-img" alt="Project preview" hidden draggable="false"><p class="cert-missing" id="proj-missing">No picture yet</p></div>
+          <div class="cert-picture" id="proj-picture">
+            <img id="proj-modal-img" alt="Project preview" hidden draggable="false">
+            <p class="cert-missing" id="proj-missing">No picture yet</p>
+            <div class="cert-zoombar" id="proj-zoombar" hidden>
+              <button type="button" data-zoom="out" aria-label="Zoom out"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
+              <button type="button" data-zoom="level" class="cert-zoom-level" title="Reset to 100%">100%</button>
+              <button type="button" data-zoom="in" aria-label="Zoom in"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+            </div>
+          </div>
           <dl class="cert-facts">
             <div class="cert-fact"><dt>Category</dt><dd id="proj-f-type"></dd></div>
+            <div class="cert-fact" hidden><dt>Duration</dt><dd id="proj-f-duration"></dd></div>
+            <div class="cert-fact" hidden><dt>Status</dt><dd id="proj-f-status"></dd></div>
           </dl>
         </div>
         <div class="cert-right">
@@ -408,6 +423,6 @@
       </div>
     </div>
   </div>
-<script src="script.js"></script>
+<script src="script.js?v=2"></script>
 </body>
 </html>

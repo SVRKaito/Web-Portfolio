@@ -242,18 +242,60 @@ const terminalObserver = new IntersectionObserver(entries => {
   });
 }, { threshold: [0, 0.15] });
 
+// Reserve the terminal's final height so the page below does not jump up/down when the
+// terminal is cleared (or while it types) - matters most on phones/tablets where the text wraps a lot.
+function reserveTerminalHeight() {
+  const host = terminalOutput.parentElement;
+  const ghost = document.createElement('div');
+  ghost.className = 'terminal-body';
+  ghost.setAttribute('aria-hidden', 'true');
+  ghost.style.cssText = 'position:absolute;visibility:hidden;pointer-events:none;left:0;top:0;height:auto;min-height:0;width:' + terminalOutput.offsetWidth + 'px';
+  const addPrompt = (p) => {
+    const s = document.createElement('span');
+    s.className = 'prompt';
+    s.textContent = 'user@tech:~$';
+    p.appendChild(s);
+    p.appendChild(document.createTextNode(' '));
+  };
+  lines.forEach(l => {
+    const p = document.createElement('p');
+    if (l.type === 'prompt') { addPrompt(p); p.appendChild(document.createTextNode(l.text)); }
+    else { p.className = 'response'; p.textContent = l.text; }
+    ghost.appendChild(p);
+  });
+  const last = document.createElement('p');
+  addPrompt(last);
+  last.appendChild(document.createTextNode('|'));
+  ghost.appendChild(last);
+  host.appendChild(ghost);
+  const h = ghost.offsetHeight;
+  host.removeChild(ghost);
+  terminalOutput.style.minHeight = h + 'px';
+}
+reserveTerminalHeight();
+window.addEventListener('load', reserveTerminalHeight);
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(reserveTerminalHeight);
+let terminalResizeT;
+window.addEventListener('resize', () => {
+  clearTimeout(terminalResizeT);
+  terminalResizeT = setTimeout(reserveTerminalHeight, 150);
+});
+
 terminalObserver.observe(document.getElementById('about'));
 
 // ── 7. Scroll Reveal ──
 const revealEls = document.querySelectorAll('.reveal');
+// Same behaviour as the About terminal: plays when the element scrolls into view,
+// resets once it is fully out of view, and plays again the next time it comes back.
 const revealObserver = new IntersectionObserver(entries => {
   entries.forEach(entry => {
-    if (entry.isIntersecting) {
+    if (!entry.isIntersecting) {
+      entry.target.classList.remove('visible');
+    } else if (entry.intersectionRatio >= 0.1) {
       entry.target.classList.add('visible');
-      revealObserver.unobserve(entry.target);
     }
   });
-}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+}, { threshold: [0, 0.1], rootMargin: '0px 0px -40px 0px' });
 
 revealEls.forEach(el => revealObserver.observe(el));
 
@@ -347,12 +389,20 @@ window.addEventListener('scroll', () => {
   if (!modal) return;
   let lastTrigger = null;
 
+  let expZoom = null;   // magnifier for the picture inside the pop-up
+
   function open(trigger) {
     const tpl = document.getElementById(trigger.dataset.target);
     if (!tpl) return;
     lastTrigger = trigger;
     content.innerHTML = '';
     content.appendChild(tpl.content.cloneNode(true));
+    const zFrame = content.querySelector('.exp-modal-cover');
+    expZoom = null;
+    if (zFrame) {
+      const zImg = zFrame.querySelector('img'), zBar = zFrame.querySelector('.cert-zoombar');
+      if (zImg && zBar) expZoom = setupZoom(zFrame, zImg, zBar);
+    }
     modal.classList.add('open');
     modal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
@@ -369,7 +419,11 @@ window.addEventListener('scroll', () => {
   closeBt.addEventListener('click', close);
   modal.addEventListener('click', e => { if (e.target === modal) close(); });
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape' && modal.classList.contains('open')) close();
+    if (!modal.classList.contains('open')) return;
+    if (e.key === 'Escape') close();
+    else if (expZoom && (e.key === '+' || e.key === '=')) expZoom.step(1);
+    else if (expZoom && e.key === '-') expZoom.step(-1);
+    else if (expZoom && e.key === '0') expZoom.reset();
   });
 })();
 
@@ -719,6 +773,8 @@ window.addEventListener('scroll', () => {
   if (!modal) return;
   const $ = id => document.getElementById(id);
   const img = $('proj-modal-img'), miss = $('proj-missing');
+  const pBar = $('proj-zoombar');
+  const pz = setupZoom($('proj-picture'), img, pBar);
   let lastCard = null;
   function openProj(card) {
     const d = card.dataset;
@@ -726,8 +782,15 @@ window.addEventListener('scroll', () => {
     $('proj-modal-title').textContent = d.title || '';
     $('proj-modal-type').textContent = d.type || '';
     $('proj-f-type').textContent = d.type || '';
+    // Duration + Status rows: shown only when the card has a value (data-duration / data-status)
+    [['proj-f-duration', d.duration], ['proj-f-status', d.status]].forEach(([id, val]) => {
+      const dd = $(id);
+      dd.textContent = val || '';
+      dd.parentElement.hidden = !val;
+    });
     $('proj-modal-about').textContent = d.about || '';
     img.hidden = true; miss.hidden = false;
+    pBar.hidden = true; pz.reset();
     if (d.img) {
       img.onload = () => { img.hidden = false; miss.hidden = true; };
       img.onerror = () => { img.hidden = true; miss.hidden = false; };
@@ -754,5 +817,77 @@ window.addEventListener('scroll', () => {
   document.querySelectorAll('.project-card').forEach(c => c.addEventListener('click', () => openProj(c)));
   $('proj-close').addEventListener('click', closeProj);
   modal.addEventListener('click', e => { if (e.target === modal) closeProj(); });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal.classList.contains('open')) closeProj(); });
+  document.addEventListener('keydown', e => {
+    if (!modal.classList.contains('open')) return;
+    if (e.key === 'Escape') closeProj();
+    else if (e.key === '+' || e.key === '=') pz.step(1);
+    else if (e.key === '-') pz.step(-1);
+    else if (e.key === '0') pz.reset();
+  });
 })();
+
+// ── Magnifier for a pop-up picture (same behaviour as the certificate pop-up):
+//    - / 100% / + buttons, Ctrl+wheel, and drag to move while zoomed in ──
+function setupZoom(frame, img, bar) {
+  const zIn    = bar.querySelector('[data-zoom="in"]');
+  const zOut   = bar.querySelector('[data-zoom="out"]');
+  const zLevel = bar.querySelector('[data-zoom="level"]');
+  const Z_MIN = 1, Z_MAX = 4, Z_STEP = 0.25;
+  let zoom = 1, tx = 0, ty = 0;
+
+  function clampPan() {
+    const maxX = Math.max(0, (img.offsetWidth  * zoom - frame.clientWidth)  / 2);
+    const maxY = Math.max(0, (img.offsetHeight * zoom - frame.clientHeight) / 2);
+    tx = Math.min(maxX, Math.max(-maxX, tx));
+    ty = Math.min(maxY, Math.max(-maxY, ty));
+  }
+  function apply() {
+    clampPan();
+    img.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + zoom + ')';
+    zLevel.textContent = Math.round(zoom * 100) + '%';
+    zOut.disabled = zoom <= Z_MIN + 0.001;
+    zIn.disabled  = zoom >= Z_MAX - 0.001;
+    frame.classList.toggle('zoomed', zoom > 1.001);
+  }
+  function set(z) {
+    zoom = Math.min(Z_MAX, Math.max(Z_MIN, Math.round(z * 100) / 100));
+    if (zoom === 1) { tx = 0; ty = 0; }
+    apply();
+  }
+  function reset() { zoom = 1; tx = 0; ty = 0; apply(); }
+  function syncBar() { bar.hidden = !(img.complete && img.naturalWidth > 0); }
+
+  // show the bar only when a picture is really there
+  img.addEventListener('load', () => { reset(); syncBar(); });
+  img.addEventListener('error', () => { bar.hidden = true; });
+  if (!bar.hidden) syncBar();
+  reset();
+
+  zIn.addEventListener('click', () => set(zoom + Z_STEP));
+  zOut.addEventListener('click', () => set(zoom - Z_STEP));
+  zLevel.addEventListener('click', reset);
+  frame.addEventListener('wheel', e => {
+    if (!e.ctrlKey) return;
+    e.preventDefault();
+    set(zoom + (e.deltaY < 0 ? Z_STEP : -Z_STEP));
+  }, { passive: false });
+
+  let panning = false, px = 0, py = 0;
+  frame.addEventListener('pointerdown', e => {
+    if (e.button !== 0 || zoom <= 1.001 || e.target.closest('.cert-zoombar')) return;
+    panning = true; px = e.clientX; py = e.clientY;
+    frame.setPointerCapture(e.pointerId);
+    frame.classList.add('panning');
+  });
+  frame.addEventListener('pointermove', e => {
+    if (!panning) return;
+    tx += e.clientX - px; ty += e.clientY - py;
+    px = e.clientX; py = e.clientY;
+    apply();
+  });
+  function endPan() { panning = false; frame.classList.remove('panning'); }
+  frame.addEventListener('pointerup', endPan);
+  frame.addEventListener('pointercancel', endPan);
+
+  return { set, reset, syncBar, step: d => set(zoom + d * Z_STEP) };
+}

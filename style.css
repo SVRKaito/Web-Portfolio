@@ -1788,3 +1788,71 @@ img { max-width: 100%; }
   .projects-grid .cert-thumb::after { display: none; }
   .cert-item:hover { transform: none; }
 }
+
+
+html:has(.cert-modal.open, .exp-modal.open, .resume-modal.open) {
+  overflow: hidden;
+}
+html:has(.cert-modal.open, .exp-modal.open, .resume-modal.open) body {
+  overflow: hidden;
+}
+
+
+.projects-grid .project-card.cert-item.reveal {
+  transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1),
+              border-color 0.25s, box-shadow 0.25s;
+}
+
+/* a pop-up's own scrolling (long text on phones) must not leak through to the page */
+.cert-modal,
+.exp-modal,
+.resume-modal,
+.cert-dialog,
+.exp-dialog,
+.certs-panel {
+  overscroll-behavior: contain;
+}
+
+/* the dimmed backdrop itself never scrolls the page */
+.cert-modal.open,
+.exp-modal.open,
+.resume-modal.open {
+  touch-action: none;
+}
+.cert-dialog,
+.exp-dialog,
+.certs-panel {
+  touch-action: pan-y;
+}
+
+#proj-modal .cert-picture { min-height: 0; }
+#proj-modal .cert-picture:has(img[hidden]) { min-height: 220px; }   /* "No picture yet" state */
+#proj-modal .cert-picture img {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 60vh;
+  object-fit: contain;
+  cursor: default;
+}
+@media (max-width: 768px) {
+  #proj-modal .cert-picture img { max-height: 46vh; }
+}
+
+/* ── Magnifier in the Experience (OJT) pop-up picture - same look as the certificate one ── */
+.exp-modal-cover { overflow: hidden; }
+.exp-modal-cover img {
+  transform-origin: center center;
+  user-select: none;
+  -webkit-user-drag: none;
+  will-change: transform;
+}
+.exp-modal-cover.zoomed { cursor: grab; touch-action: none; }
+.exp-modal-cover.zoomed.panning { cursor: grabbing; }
+.exp-modal-cover .cert-zoombar {
+  position: absolute; left: 50%; bottom: 0.7rem; right: auto; transform: translateX(-50%); z-index: 3;
+  display: flex; align-items: center; gap: 0.2rem; padding: 0.3rem;
+  background: rgba(10, 10, 16, 0.9); border: 1px solid rgba(59, 130, 246, 0.45); border-radius: 999px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+.exp-modal-cover .cert-zoombar[hidden] { display: none; }
